@@ -1,0 +1,11 @@
+ <!--------------------☆☆サイドバー☆☆ ------------------ -->
+<div class="span3">
+	<div class="well sidebar-nav">
+		<ul class="nav nav-list">
+			#{list items:_allPosts, as:'postlist'}
+			<li ${_post?.id==postlist.id?  "class= active" : ""} ><a href="@{Event.edit(postlist.id)}">${postlist.holdAt?.format()} ${postlist.title}</a></li>
+			#{/list}
+		</ul>
+	</div><!--/.well -->
+</div><!--/span-->
+<!--------------------☆☆サイドバーend☆☆ ------------------ -->

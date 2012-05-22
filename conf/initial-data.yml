@@ -1,0 +1,64 @@
+# Test data
+
+
+Event(第X回J-POPセッション):
+   title:        第X回J-POPセッション
+   startAt:      2012/05/31 13:00
+   endAt:        2012/05/31 16:00
+   place:        高田馬場NOAH
+   content:       >
+                 第X回J-POPセッション
+
+
+Event(第X回METALセッション):
+   title:        第X回METALセッション
+   startAt:      2012/05/31 09:00
+   endAt:        2012/05/31 11:00
+   place:        音楽館
+   content:       >
+                 メタル
+                 ああああああ
+
+Event(test):
+   title:        test
+   startAt:
+   endAt:
+   place:
+   content:       >
+
+
+
+
+Song(test):
+   title:        test
+   event:        第X回J-POPセッション
+   vocal:        
+      is_in_recruitment:      true
+      participant:            わたしわたし
+   guitar1:
+      is_in_recruitment:      
+      participant:            
+   guitar2:
+   drums:        aaaa
+   base:         bbbb
+   keybord1:     cccc
+   keybord2:     dddd
+   other1:       eeee
+   other2:       ffff
+   remarks:      曲のリンクとか
+   state:        募集中
+
+Song(test2):
+   - title:        test2dafadfa
+     event:        第X回J-POPセッション
+     vocal:        おれ
+     guitar1:      募集中fdafa
+     guitar2:
+     drums:        aaaa
+     base:         bbbbfdfad
+     keybord1:     ccccdfafa
+     keybord2:     dddd
+     other1:       eeeeadfaf
+     other2:       ffff
+     remarks:      曲のリンクとか
+     state:        成立

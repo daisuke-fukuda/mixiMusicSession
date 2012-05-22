@@ -1,0 +1,137 @@
+#{extends 'main.html' /}
+#{set title:'イベント新規作成' /}
+
+<div class="span9">
+<div class="page-header">
+    <h2>イベント新規作成</h2>
+</div>
+
+
+    #{ifErrors}
+        <div class="crudFlash flashSuccess  alert alert-error">
+			エラーを修正してください。
+        </div>
+    #{/ifErrors}
+
+    #{if flash.success}
+    	<div class="crudFlash flashSuccess  alert alert-success">
+    		${flash.success}
+    	</div>
+    #{/if}
+    #{if flash.error || error}
+    	<div class="crudFlash flashError alert alert-error">
+    		${error ?: flash.error}
+    	</div>
+    #{/if}
+
+#{form @createSave(),class:'well'}
+
+
+    <p>
+        #{field 'title'}
+        <label>&{'title'}</label>
+        <input type="text" name="${field.name}"
+            value="${post?.title}" class="${field.errorClass}" />
+         #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+        <span class="help-inline">
+         ex 第1回Java7
+         </span>
+        #{/field}
+	</p>
+    <p>
+        #{field 'holdAt'}
+        <label>&{'holdAt'}</label>
+        <input type="text" name="${field.name}"
+            value="${post?.holdAt?.format()}" class="${field.errorClass}" />
+         #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+         <span class="help-inline">
+         ex 2012/06/02
+         </span>
+        #{/field}
+	</p>
+
+    <p>
+        #{field 'place'}
+        <label>&{'place'}</label>
+        <input type="text" name="${field.name}"
+            value="${post?.place}" class="${field.errorClass}" />
+         #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+        <span class="help-inline">
+         ex 事務所
+         </span>
+        #{/field}
+	</p>
+
+	    <p>
+        #{field 'theme'}
+        <label>&{'theme'}</label>
+        <input type="text" name="${field.name}"
+            value="${post?.theme}" class="${field.errorClass}" />
+         #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+        <span class="help-inline">
+         ex Java7
+         </span>
+        #{/field}
+	</p>
+
+    <p>
+     <div class="control-group">
+        #{field 'lecturer'}
+        <label for="lecturer">&{'lecturer'}</label>
+            <div class="controls">
+              <select id="lecturer" name="lecturer">
+            #{list items:users, as:'targetUser'}
+                <option value=${targetUser?.id} ${post?.lecturer?.id == targetUser?.id ? "selected" :'' }>${targetUser.fullname}</option>
+		#{/list}
+              </select>
+            </div>
+          </div>
+        #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+        #{/field}
+	</p>
+
+	    <p>
+     <div class="control-group">
+        #{field 'homework'}
+        <label for="textarea">&{'homework'}</label>
+            <div class="controls">
+              <textarea class="input-xlarge span7" name ="homework" rows="10" >${post?.homework}</textarea>
+            </div>
+         #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+        #{/field}
+          </div>
+	</p>
+
+
+     <div class="control-group">
+        #{field 'content'}
+        <label for="textarea">&{'content'}</label>
+            <div class="controls">
+              <textarea class="input-xlarge span7" name="content" rows="10" >${post?.content}</textarea>
+            </div>
+         #{ifError field.name}
+        <span class="label label-important help-inline">${field.error.raw()}</span>
+         #{/ifError}
+        #{/field}
+          </div>
+	</p>
+
+    <p>
+        <input type="submit" value="作成"  class="btn btn-success"/>
+    </p>
+
+#{/form}
+
+</div>
