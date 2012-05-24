@@ -1,0 +1,113 @@
+#{extends 'main.html' /} #{set title:"イベント編集：" + post?.title /}
+
+
+<div class="row-fluid">
+
+ <!--------------------☆☆サイドバー☆☆ ------------------ -->
+<div class="span3">
+	<div class="well sidebar-nav">
+		<ul class="nav nav-list">
+			#{list items:songList, as:'item'}
+			<li ${item.id==song.id ? "class='active'" : ''} ><a href="@{Application.editSong(item.id)}">${item}</a></li>
+			#{/list}
+		</ul>
+	</div><!--/.well -->
+</div><!--/span-->
+<!--------------------☆☆サイドバーend☆☆ ------------------ -->
+
+	<div class="span9">
+
+	<a class="btn" href="@{Application.event(song.event.id)}">一覧へ</a>
+
+
+		<div class="page-header">
+			<h2>編集</h2>
+		</div>
+
+
+
+
+		#{ifErrors}
+		<div class="crudFlash flashSuccess  alert alert-error">エラーを修正してください。</div>
+		#{/ifErrors}
+
+		#{if flash.success}
+		<div class="crudFlash flashSuccess  alert alert-success">
+			<p>${flash.success}</p>
+			<textarea type name="result" id="result" onChange="clip.setText(this.value)" rows=6 class="span3">${flash.result}</textarea>
+			<input type="submit" id="copyButton" value="コピー"  class='btn'/>
+			<script type="text/javascript">
+				// テキストエリア
+				  var target = document.getElementById('result')
+				// ボタン
+				  var btn = document.getElementById('copyButton')
+				// インスタンス
+				  var clip = new ZeroClipboard.Client();
+				// マウスオン時のカーソルの設定
+				  clip.setHandCursor(true);
+				  clip.setText(target.value);
+				// 2回目以降に備える
+				  if (clip.div) {
+					clip.receiveEvent('mouseout', null);
+					clip.reposition(btn);
+				  } else {
+					clip.glue(btn);
+				  }
+			</script>
+		</div>
+		#{/if}
+
+
+		#{form @editSongSave(eventId),class:'form-horizontal'}
+		<fieldset>
+
+		<input type="hidden" value="${song?.id}" name="song.id"/>
+		<input type="hidden" value="${song?.vocal?.id}" name="song.vocal.id"/>
+		<input type="hidden" value="${song?.guitar1?.id}" name="song.guitar1.id"/>
+        <input type="hidden" value="${song?.drums?.id}" name="song.drums.id"/>
+        <input type="hidden" value="${song?.base?.id}" name="song.base.id"/>
+        <input type="hidden" value="${song?.keybord1?.id}" name="song.keybord1.id"/>
+
+
+		<div class="control-group">
+			<label class="control-label" for="song.songState">状況</label>
+			<div class="controls">
+			#{select "song.state", items:util.SongState.values(),  labelProperty: 'name', valueProperty:util.SongState.name, id:'song.songState', value:song.state /}
+			</div>
+		</div>
+		#{textField name:'song.title', value:song?.title, help:null /}
+        #{textField name:'song.singer', value:song?.singer, help:null /}
+
+
+
+        <div class="control-group">
+			<label class="control-label" for="inlineCheckboxes">募集パート</label>
+				<div class="controls">
+				#{checkboxInlineField name:'song.vocal.is_in_recruitment', value:song.vocal.is_in_recruitment /}
+				#{checkboxInlineField name:'song.guitar1.is_in_recruitment', value:song.guitar1.is_in_recruitment /}
+				#{checkboxInlineField name:'song.base.is_in_recruitment', value:song.base.is_in_recruitment /}
+				#{checkboxInlineField name:'song.drums.is_in_recruitment', value:song.drums.is_in_recruitment /}
+				#{checkboxInlineField name:'song.keybord1.is_in_recruitment', value:song.keybord1.is_in_recruitment /}
+			  	</div>
+		</div>
+
+
+        #{textField name:'song.vocal.participant', value:song?.vocal /}
+        #{textField name:'song.guitar1.participant', value:song?.guitar1 /}
+        #{textField name:'song.base.participant', value:song?.base /}
+        #{textField name:'song.drums.participant', value:song?.drums /}
+        #{textField name:'song.keybord1.participant', value:song?.keybord1 /}
+
+
+        #{textField name:'song.remarks', value:song?.remarks, help:null /}
+
+		<div class="form-actions">
+				<input type="submit" value="編集" class="btn btn-success" />
+          	</div>
+		</fieldset>
+		#{/form}
+	</div>
+
+
+
+</div>

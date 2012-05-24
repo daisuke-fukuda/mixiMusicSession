@@ -1,0 +1,93 @@
+#{extends 'main.html' /}
+#{set title:'イベント新規作成' /}
+
+
+<div class="row-fluid">
+
+
+	<div class="span9">
+
+	<a class="btn" href="@{Application.event(eventId)}">一覧へ</a>
+
+
+		<div class="page-header">
+			<h2>新規作成</h2>
+		</div>
+
+
+
+
+		#{ifErrors}
+		<div class="crudFlash flashSuccess  alert alert-error">エラーを修正してください。</div>
+		#{/ifErrors}
+
+		#{if flash.success}
+		<div class="crudFlash flashSuccess  alert alert-success">
+			<p>${flash.success}</p>
+		<textarea type name="result" id="result" onChange="clip.setText(this.value)" rows=6 class="span3">${flash.result}</textarea>
+			<input type="submit" id="copyButton" value="コピー"  class='btn'/>
+			<script type="text/javascript">
+				// テキストエリア
+				  var target = document.getElementById('result')
+				// ボタン
+				  var btn = document.getElementById('copyButton')
+				// インスタンス
+				  var clip = new ZeroClipboard.Client();
+				// マウスオン時のカーソルの設定
+				  clip.setHandCursor(true);
+				  clip.setText(target.value);
+				// 2回目以降に備える
+				  if (clip.div) {
+					clip.receiveEvent('mouseout', null);
+					clip.reposition(btn);
+				  } else {
+					clip.glue(btn);
+				  }
+			</script>
+		</div>
+		#{/if}
+
+
+
+
+		<div class="span8">
+			#{form @createSongSave(eventId), class:'form-horizontal'}
+			<fieldset>
+
+			#{textField name:'song.title', value:song?.title, help:null /}
+			#{textField name:'song.singer', value:song?.singer, help:null /}
+
+
+			<div class="control-group">
+			<label class="control-label" for="inlineCheckboxes">募集パート</label>
+				<div class="controls">
+				#{checkboxInlineField name:'song.vocal.is_in_recruitment' /}
+				#{checkboxInlineField name:'song.guitar1.is_in_recruitment' /}
+				#{checkboxInlineField name:'song.base.is_in_recruitment' /}
+				#{checkboxInlineField name:'song.drums.is_in_recruitment' /}
+				#{checkboxInlineField name:'song.keybord1.is_in_recruitment' /}
+			  	</div>
+		  	</div>
+
+			<div class="control-group">
+			<label class="control-label" for="inlineCheckboxes">自分の参加パート</label>
+				<div class="controls">
+				#{checkboxInlineField name:'is_desire_vocal' /}
+				#{checkboxInlineField name:'is_desire_guitar1' /}
+				#{checkboxInlineField name:'is_desire_base' /}
+				#{checkboxInlineField name:'is_desire_drums' /}
+				#{checkboxInlineField name:'is_desire_keybord1' /}
+			  	</div>
+		  	</div>
+
+			#{textField name:'song.remarks', value:song?.remarks, help:null /}
+
+
+			<div class="form-actions">
+				<input type="submit" value="作成" class="btn btn-success" />
+			  	</div>
+			</fieldset>
+			#{/form}
+		</div>
+	</div>
+</div>

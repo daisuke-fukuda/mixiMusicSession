@@ -1,0 +1,59 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+field.errorClass="alert alert-error"
+
+
+
+song.state=状況
+song.title=曲名
+song.singer=歌手
+song.vocal.participant=Vo
+song.guitar1.participant=Gt1
+song.guitar2.participant =Gt2
+song.drums.participant=Dr
+song.base.participant=Ba
+song.keybord1.participant=Key1
+song.keybord2.participant=Key2
+song.other1.participant=その他1
+song.other2.participant=その他2
+song.remarks=備考
+
+
+#song.vocal.is_in_recruitment=募集する（Vo）
+#song.guitar1.is_in_recruitment=募集する（Gt1）
+#song.guitar2.is_in_recruitment=募集する（Gt2）
+#song.drums.is_in_recruitment=募集する（Dr）
+#song.base.is_in_recruitment=募集する（Ba）
+#song.keybord1.is_in_recruitment=募集する（Key1）
+#song.keybord2.is_in_recruitment=募集する（Key2）
+#song.other1.is_in_recruitment=募集する（その他1）
+#song.other2.is_in_recruitment=募集する（その他2）
+
+song.vocal.is_in_recruitment=Vo
+song.guitar1.is_in_recruitment=Gt1
+song.guitar2.is_in_recruitment=Gt2
+song.drums.is_in_recruitment=Dr
+song.base.is_in_recruitment=Ba
+song.keybord1.is_in_recruitment=Key1
+song.keybord2.is_in_recruitment=Key2
+song.other1.is_in_recruitment=その他1
+song.other2.is_in_recruitment=その他2
+
+is_desire_vocal=Vo
+is_desire_guitar1=Gt1
+is_desire_base=Ba
+is_desire_drums=Dr
+is_desire_keybord1=Key1
+
+
+event.title=名前
+event.startAt=開始日時（例 2012/06/02 12:30）
+event.endAt=終了日時
+event.place=場所
+event.content=内容
+
+
+
+

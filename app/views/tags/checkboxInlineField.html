@@ -1,0 +1,6 @@
+#{field _name}
+	<label class="checkbox inline">
+		<input type="checkbox" id="${field.name}" name="${field.name}" value="true"  ${_value==true ? 'checked' : ''}>&{_name}
+		<input type="hidden" name="${field.name}" value="false" />
+	</label>
+#{/field}

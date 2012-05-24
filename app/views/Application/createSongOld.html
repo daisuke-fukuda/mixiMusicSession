@@ -1,0 +1,84 @@
+#{extends 'main.html' /}
+#{set title:'イベント新規作成' /}
+
+
+<div class="row-fluid">
+
+
+	<div class="span9">
+
+	<a class="btn" href="@{Application.event(eventId)}">一覧へ</a>
+
+
+		<div class="page-header">
+			<h2>新規作成</h2>
+		</div>
+
+
+
+
+		#{ifErrors}
+		<div class="crudFlash flashSuccess  alert alert-error">エラーを修正してください。</div>
+		#{/ifErrors}
+
+		#{if flash.success}
+		<div class="crudFlash flashSuccess  alert alert-success">
+			<p>${flash.success}</p>
+		<textarea type name="result" id="result" onChange="clip.setText(this.value)" rows=6 class="span3">${flash.result}</textarea>
+			<input type="submit" id="copyButton" value="コピー"  class='btn'/>
+			<script type="text/javascript">
+				// テキストエリア
+				  var target = document.getElementById('result')
+				// ボタン
+				  var btn = document.getElementById('copyButton')
+				// インスタンス
+				  var clip = new ZeroClipboard.Client();
+				// マウスオン時のカーソルの設定
+				  clip.setHandCursor(true);
+				  clip.setText(target.value);
+				// 2回目以降に備える
+				  if (clip.div) {
+				    clip.receiveEvent('mouseout', null);
+				    clip.reposition(btn);
+				  } else {
+				    clip.glue(btn);
+				  }
+			</script>
+		</div>
+		#{/if}
+
+
+
+
+
+
+
+
+
+		<div class="span8">
+			#{form @createSongSave(eventId), class:'form-horizontal'}
+			<fieldset>
+
+			#{textField name:'song.state', value:song?.title, help:null /}
+			#{textField name:'song.title', value:song?.title, help:null /}
+	        #{textField name:'song.singer', value:song?.singer, help:null /}
+
+	        #{textAndCheckboxFields textName:'song.vocal.participant', textValue:song?.vocal, checkboxName:'song.vocal.is_in_recruitment', checkboxValue:song?.vocal?.is_in_recruitment, checkboxHelp:"募集する" /}
+
+		    #{textAndCheckboxFields textName:'song.guitar1.participant', textValue:song?.guitar1, checkboxName:'song.guitar1.is_in_recruitment', checkboxValue:song?.guitar1?.is_in_recruitment, checkboxHelp:"募集する" /}
+
+	    	#{textAndCheckboxFields textName:'song.drums.participant', textValue:song?.drums, checkboxName:'song.drums.is_in_recruitment', checkboxValue:song?.drums?.is_in_recruitment, checkboxHelp:"募集する" /}
+
+	        #{textAndCheckboxFields textName:'song.base.participant', textValue:song?.base, checkboxName:'song.base.is_in_recruitment', checkboxValue:song?.base?.is_in_recruitment, checkboxHelp:"募集する" /}
+
+	        #{textAndCheckboxFields textName:'song.keybord1.participant', textValue:song?.keybord1, checkboxName:'song.keybord1.is_in_recruitment', checkboxValue:song?.keybord1?.is_in_recruitment, checkboxHelp:"募集する" /}
+
+	        #{textField name:'song.remarks', value:song?.remarks, help:null /}
+				<div class="form-actions">
+					<input type="submit" value="作成" class="btn btn-success" />
+	          	</div>
+			</fieldset>
+			#{/form}
+		</div>
+	</div>
+</div>

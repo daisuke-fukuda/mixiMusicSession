@@ -1,0 +1,65 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+<div class="row-fluid">
+
+
+ <div class="page-header">
+	<h1>${event.title}</h1>
+ </div>
+
+   <div Align="right" class='span9'>
+		<p>
+		   <a class="btn btn-primary" href="@{Application.createSong(event.id)}">新規</a>
+		</p>
+   </div>
+
+
+	<div class='span11'>
+	<table class='table table-striped table-bordered table-condensed'>
+		<thead>
+			<tr>
+				<th>&{"song.state"}</th>
+				<th>&{"song.title"}</th>
+				<th>&{"song.singer"}</th>
+				<th>&{"song.vocal.participant"}</th>
+				<th>&{"song.guitar1.participant"}</th>
+				<th>&{"song.drums.participant"}</th>
+				<th>&{"song.base.participant"}</th>
+				<th>&{"song.keybord1.participant"}</th>
+				<th>&{"song.remarks"}</th>
+				<th>変更</th>
+				</tr>
+		</thead>
+		<tbody>
+		#{list items:songList, as:'song'}
+			<tr>
+				<td>${song.state?.name}</td>
+				<td><a href="@{Application.editSong(song.id)}">${song.title}</a></td>
+				<td>${song.singer}</td>
+				<td>${song.vocal.participant}</td>
+				<td>${song.guitar1.participant}</td>
+				<td>${song.drums.participant}</td>
+				<td>${song.base.participant}</td>
+				<td>${song.keybord1.participant}</td>
+				<td>${song.remarks}</td>
+				<td>
+					<table>
+					<tr>
+					<td>
+					<a class="btn btn-success " data-loading-text="loading stuff..." href="@{Application.participateSong(song.id)}">便乗</a>
+					<a class="btn btn-info" data-loading-text="loading stuff..." href="@{Application.editSong(song.id)}">変更</a><span></span>
+					</td>
+					<td>
+					<a class="btn btn-danger" data-loading-text="loading stuff..."  href="@{Application.deleteSong(song.id, event.id)}">削除</a>
+					</td>
+					<tr>
+					</table>
+				</td>
+				</tr>
+		#{/list}
+		</tbody>
+	</table>
+  </div><!--/span-->
+
+</div><!--/row-->

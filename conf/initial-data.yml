@@ -1,0 +1,126 @@
+# Test data
+
+
+Event(第X回J-POPセッション):
+   title:        第X回J-POPセッション
+   startAt:      2012/05/31 13:00
+   endAt:        2012/05/31 16:00
+   place:        高田馬場NOAH
+   content:      >
+                 第X回J-POPセッション
+
+
+Event(第X回METALセッション):
+   title:        第X回METALセッション
+   startAt:      2012/05/31 09:00
+   endAt:        2012/05/31 11:00
+   place:        音楽館
+   content:      >
+                 メタル
+                 ああああああ
+
+
+
+
+Part(a):
+   is_in_recruitment:      true
+   participant:            わたしわたし
+
+Part(b):
+   is_in_recruitment:      true
+   participant:
+
+Part(c):
+   is_in_recruitment:      true
+   participant:            hoge
+
+Part(d):
+   is_in_recruitment:      false
+   participant:
+
+Part(e):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(f):
+   is_in_recruitment:      true
+   participant:
+
+Part(g):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(h):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(i):
+   is_in_recruitment:      true
+   participant:
+
+Part(1):
+   is_in_recruitment:      false
+   participant:
+
+Part(2):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(3):
+   is_in_recruitment:      true
+   participant:
+
+Part(4):
+   is_in_recruitment:      false
+   participant:
+
+Part(5):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(6):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(7):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(8):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Part(9):
+   is_in_recruitment:      true
+   participant:            fadfafadfa
+
+Song(test):
+   title:        test
+   event:        第X回J-POPセッション
+   vocal:        a
+   guitar1:      b
+   guitar2:      c
+   drums:        d
+   base:         e
+   keybord1:     f
+   keybord2:     g
+   other1:       h
+   other2:       1
+   remarks:      曲のリンクとか
+   state:        IN_WANTING
+
+Song(test2):
+   title:        test2dafadfa
+   event:        第X回J-POPセッション
+   vocal:        2
+   guitar1:      3
+   guitar2:      4
+   drums:        5
+   base:         6
+   keybord1:     7
+   keybord2:     8
+   other1:       9
+   other2:       10
+   remarks:      曲のリンクとか
+   state:        REACH
+

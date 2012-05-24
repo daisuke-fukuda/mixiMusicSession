@@ -1,0 +1,35 @@
+<!--------------------☆☆トップバー☆☆ ------------------ -->
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+	<div class="container-fluid">
+		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</a>
+		<a class="brand" href="@{Application.index}">mixiMusinSession</a>
+		<div class="nav-collapse">
+			<ul class="nav">
+				<li ${_displayName=="index" ? "class='active'":""}><a href="@{Application.index}">Home</a></li>
+			</ul>
+
+
+			<p class="navbar-text pull-right">
+			#{if session.username}
+				${session.username}</a>としてログイン中/</span>
+				<a href="@{Secure.logout}">ログアウト</a>
+
+
+			#{/if}
+
+			#{else}
+				<a href="@{Secure.login}">ログイン</a>
+			#{/else}
+			</p>
+
+		</div><!--/.nav-collapse -->
+	</div><!-- container-fluid-->
+  </div><!-- navi inner-->
+</div><!--  navbar-fixed-top -->
+<!--------------------☆☆トップバー end☆☆ ------------------ -->

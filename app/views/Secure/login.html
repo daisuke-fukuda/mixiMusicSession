@@ -1,0 +1,50 @@
+#{extends 'main.html' /}
+#{set title:'ログイン' /}
+
+<div class="container">
+<div class="row">
+
+<div class="span8 offset4">
+<div id="login">
+
+	<h1>&{'secure.title'}</h1>
+
+	#{form @authenticate()}
+
+		<div class="control-group" >
+
+		#{if flash.error}
+			<p class="error">
+
+    		<div class="control-group error">
+            <label class="control-label" for="inputWarning">&{flash.error}</label>
+            </div>
+			</p>
+		#{/if}
+		#{if flash.success}
+			<p class="success">
+				&{flash.success}
+			</p>
+		#{/if}
+
+		<p id="username-field">
+			<label for="username" class="control-label">&{'secure.username'}</label>
+			<input type="text" name="username" id="username" value="${flash.username}"  placeholder="名前"/>
+		</p>
+		<p id="password-field">
+			<label for="password" class="control-label">&{'secure.password'}</label>
+			<input type="password" name="password" id="password" value=""  placeholder="パスワード"/>
+		</p>
+		<p id="remember-field">
+			<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
+			&{'secure.remember'}</label>
+		</p>
+		<p id="signin-field">
+			<input type="submit" id="signin" value="&{'secure.signin'}"  class="btn btn-primary"/>
+		</p>
+		</div>
+	#{/form}
+</div>
+</div>
+</div>
+</div>

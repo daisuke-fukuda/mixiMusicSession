@@ -1,0 +1,11 @@
+ <!--------------------☆☆サイドバー☆☆ ------------------ -->
+<div class="span3">
+	<div class="well sidebar-nav">
+		<ul class="nav nav-list">
+			#{list items:_itemList, as:'item'}
+			<li ${_selectedId==item.id ? "class='active'" : ''} ><a href="${_link}">${item}</a></li>
+			#{/list}
+		</ul>
+	</div><!--/.well -->
+</div><!--/span-->
+<!--------------------☆☆サイドバーend☆☆ ------------------ -->

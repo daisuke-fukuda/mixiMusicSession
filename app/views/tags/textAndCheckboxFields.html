@@ -1,0 +1,25 @@
+
+<div class="control-group">
+	#{field _textName}
+    <label for="${field.id}" class="control-label">&{_textName}</label>
+    <div class="controls">
+        <input id="${field.id}" class="${field.errorClass}" type="text" name="${field.name}" value="${_textValue}" />
+        #{ifError field.name}
+            <span class="label label-important help-inline">${field.error.raw()}</span>
+        #{/ifError}
+        <span class="help-inline">${_textHelp}</span>
+    </div>
+	#{/field}
+
+	#{field _checkboxName}
+    <div class="controls">
+        <input id="${field.id}" class="${field.errorClass}" type="checkbox" name="${field.name}" value="true"  ${_checkboxValue ? 'checked="true"' : ''}/>
+    	<input type="hidden" name="${field.name}" value="false" />
+        #{ifError field.name}
+            <span class="label label-important help-inline">${field.error.raw()}</span>
+        #{/ifError}
+        <span class="help-inline">${_checkboxHelp}</span>
+    </div>
+	#{/field}
+</div>
+
