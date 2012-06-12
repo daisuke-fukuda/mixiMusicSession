@@ -37,6 +37,13 @@ public class Application extends Controller {
         render(eventList);
     }
 
+    public static void deleteEvent(Long id) {
+
+    	Event.findById(id)._delete();
+    	index();
+
+    }
+
 
     public static void event(Long eventId) {
 

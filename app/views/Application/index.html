@@ -17,6 +17,7 @@
 				<th>日時</th>
 				<th>場所</th>
 				<th>内容</th>
+				<th>変更</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,6 +27,18 @@
 				<td>${event.startAt?.format()} - ${event.endAt?.format()}</td>
 				<td>${event.place}</td>
 				<td>${event.content}</td>
+				<td>
+					<table>
+					<tr>
+					<td>
+					<a class="btn btn-info" data-loading-text="loading stuff..." href="#">変更</a><span></span>
+					</td>
+					<td>
+					<a class="btn btn-danger" data-loading-text="loading stuff..."  href="@{Application.deleteEvent(event.id)}">削除</a>
+					</td>
+					<tr>
+					</table>
+				</td>
 			</tr>
 		#{/list}
 		</tbody>
