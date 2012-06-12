@@ -14,6 +14,7 @@ import net.sf.oval.guard.Post;
 
 import org.apache.commons.lang.StringUtils;
 import org.h2.engine.User;
+import org.hibernate.annotations.Cascade;
 
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
@@ -40,7 +41,7 @@ public class Event extends Model {
 	@MaxSize(10000)
 	public String content;
 
-	@OneToMany
+	@OneToMany(mappedBy="event",cascade=CascadeType.ALL)
 	public List<Song> song = new ArrayList<Song>();
 
 
