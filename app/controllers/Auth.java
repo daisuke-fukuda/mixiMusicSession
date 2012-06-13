@@ -1,5 +1,6 @@
 package controllers;
 
+import models.User;
 import play.libs.OpenID;
 import play.libs.OpenID.UserInfo;
 import play.mvc.Before;
@@ -35,16 +36,29 @@ public class Auth extends Controller {
 		}
 
 		// 認証処理の結果を評価
-		UserInfo user = OpenID.getVerifiedID();
-		if (user == null) {
+		UserInfo userInfo = OpenID.getVerifiedID();
+		if (userInfo == null) {
 			flash.put("error", "認証に失敗しました");
 			login();
 		} else {
 
 			// 認証完了
-			String nickname = user.extensions.get("nickname");
+			String nickname = userInfo.extensions.get("nickname");
+			String id = userInfo.id;
 
 			session.put("username", nickname);
+			session.put("id", id);
+
+			// ユーザー情報をアプリで保持
+			User user = User.findById(id);
+			if ( user == null) {
+				user = new User();
+				user.id = id;
+			}
+			user.name = nickname;
+			user.save();
+
+
 			Application.index();
 		}
 	}
