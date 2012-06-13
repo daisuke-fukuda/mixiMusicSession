@@ -45,7 +45,7 @@ public class Auth extends Controller {
 			String nickname = user.extensions.get("nickname");
 
 			session.put("username", nickname);
-			render("@Application.index");
+			Application.index();
 		}
 	}
 
