@@ -3,10 +3,11 @@
 # ~~~~
 
 # Import Secure routes
-*      /                module:secure
+#*      /                module:secure
 
 # Home page
 GET     /                                       Application.index
+*       /login                                  Auth.mixi
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

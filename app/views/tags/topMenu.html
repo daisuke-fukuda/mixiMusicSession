@@ -8,7 +8,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</a>
-		<a class="brand" href="@{Application.index}">mixiMusinSession</a>
+		<a class="brand" href="@{Application.index}">mixiMusicSession</a>
 		<div class="nav-collapse">
 			<ul class="nav">
 				<li ${_displayName=="index" ? "class='active'":""}><a href="@{Application.index}">Home</a></li>
@@ -18,13 +18,13 @@
 			<p class="navbar-text pull-right">
 			#{if session.username}
 				${session.username}</a>としてログイン中/</span>
-				<a href="@{Secure.logout}">ログアウト</a>
+				<a href="@{Auth.logout}">ログアウト</a>
 
 
 			#{/if}
 
 			#{else}
-				<a href="@{Secure.login}">ログイン</a>
+				<a href="@{Auth.login}">ログイン</a>
 			#{/else}
 			</p>
 

@@ -11,21 +11,8 @@ import util.CustomList;
 import util.SongState;
 
 
-@With(Secure.class)
+@With(Auth.class)
 public class Application extends Controller {
-
-
-
-
-
-	@Before
-	static void setConnectUser() {
-
-		if(Security.isConnected()) {
-			renderArgs.put("user", Security.connected());
-		}
-
-	}
 
 
 

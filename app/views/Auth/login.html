@@ -1,0 +1,28 @@
+#{extends 'main.html' /}
+#{set title:'ログイン' /}
+
+<div class="container">
+<div class="row">
+<div class="span8 offset4">
+<div id="login">
+	<h1>&{'secure.title'}</h1>
+		<div class="control-group" >
+			#{if flash.error}
+				<p class="error">
+	    			<div class="control-group error">
+		    	        <label class="control-label" for="inputWarning">&{flash.error}</label>
+	            	</div>
+				</p>
+			#{/if}
+			#{if flash.success}
+				<p class="success">
+					&{flash.success}
+				</p>
+			#{/if}
+		<a href="@{Auth.mixi()}">
+		<img src="@{'/public/images/login_btn002.png'}" ></a>
+	</div>
+</div>
+</div>
+</div>
+</div>
