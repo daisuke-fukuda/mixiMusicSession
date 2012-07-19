@@ -48,9 +48,11 @@ is_desire_drums=Dr
 is_desire_keybord1=Key1
 
 
-event.title=名前
-event.startAt=開始日時（例 2012/06/02 12:30）
-event.endAt=終了日時
+event.title=イベント名
+event.communityId=コミュニティID
+event.date=日付
+event.startAt=開始時間（例 12:30）
+event.endAt=終了時間（例 21:00）
 event.place=場所
 event.content=内容
 

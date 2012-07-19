@@ -401,98 +401,12 @@ public class Application extends Controller {
 
 
 
+	public static void participateEvent(Long id) {
+		index();
+	}
 
 
 
-
-
-
-
-
-//	public static void createSongOld(Long eventId) {
-//
-//		render(eventId);
-//
-//	}
-//
-//	public static void createSongOldSave(Long eventId, Song song) {
-//
-//		song.event = Event.findById(eventId);
-//		song.save();
-//		flash.success("作成しました。");
-//
-//
-//
-//
-//		/*
-//		 *
-//		 * 結果イメージ
-//		 *
-//		 * ★【新規】**************************************
-//		 * 曲名：hogehoge
-//		 * 希望パート:Vo
-//		 * 募集パート:Gt1,Gt2,Key
-//		 * 備考：hogehoge
-//		 * ************************************************
-//		 */
-//
-//		StringBuilder result = new StringBuilder();
-//		String BR = System.getProperty("line.separator");
-//		result.append("★【新規】**************************************");
-//		result.append(BR);
-//		result.append("曲名：" + song.title);
-//		result.append(BR);
-//
-//		List<String> desiredPartList = new CustomList<String>();
-//
-//		if (song.vocal.isParticipating()){
-//			desiredPartList.add("Vo");
-//		}
-//		if (song.guitar1.isParticipating()) {
-//			desiredPartList.add("Gt1");
-//		}
-//		if (song.base.isParticipating()) {
-//			desiredPartList.add("Ba");
-//		}
-//		if (song.drums.isParticipating()) {
-//			desiredPartList.add("Dr");
-//		}
-//		if (song.keybord1.isParticipating()) {
-//			desiredPartList.add("Key1");
-//		}
-//
-//		result.append("希望パート：" + desiredPartList.toString());
-//		result.append(BR);
-//
-//
-//		List<String> wantedPartList = new CustomList<String>();
-//		if ( song.vocal.isWanting() ){
-//			wantedPartList.add("Vo");
-//		}
-//		if (song.guitar1.isWanting()) {
-//			wantedPartList.add("Gt1");
-//		}
-//		if (song.base.isWanting()) {
-//			wantedPartList.add("Ba");
-//		}
-//		if (song.drums.isWanting()) {
-//			wantedPartList.add("Dr");
-//		}
-//		if (song.keybord1.isWanting()) {
-//			wantedPartList.add("Key1");
-//		}
-//		result.append("募集パート：" + wantedPartList.toString());
-//		result.append(BR);
-//
-//		result.append("備考：" + song.remarks);
-//		result.append(BR);
-//
-//		result.append("************************************************");
-//		flash.put("result", result.toString());
-//
-//		createSongOld(eventId);
-//
-//	}
 
 
 }

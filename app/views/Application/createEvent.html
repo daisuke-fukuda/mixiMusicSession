@@ -48,18 +48,29 @@
 		#{/if}
 
 
-
-
 		<div class="span8">
 			#{form @createEventSave(), class:'form-horizontal'}
 			<fieldset>
 
 			#{textField name:'event.title'  /}
+			#{textField name:'event.communityId' /}
+
+			#{field 'event.date'}
+				<div class="control-group">
+				    <label for="dp2" class="control-label">&{'event.date'}</label>
+				    <div class="controls">
+				        <input id="dp2" class="${field.errorClass}" type="text" name="${field.name}" value="2012/07/12" data-date-format="yyyy/mm/dd"  />
+				        #{ifError field.name}
+				            <span class="label label-important help-inline">${field.error.raw()}</span>
+				        #{/ifError}
+				        <span class="help-inline">${_help}</span>
+				    </div>
+				</div>
+			#{/field}
 			#{textField name:'event.startAt' /}
 			#{textField name:'event.endAt' /}
 			#{textField name:'event.place' /}
 			#{textField name:'event.content' /}
-
 
 
 			<div class="form-actions">
@@ -70,3 +81,10 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function(){
+		window.prettyPrint && prettyPrint();
+		$('#dp2').datepicker();
+	});
+</script>
