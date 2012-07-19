@@ -19,12 +19,22 @@ Event(第X回METALセッション):
                  メタル
                  ああああああ
 
+User(AAAA):
+   id:    "https://id.mixi.jp/AAAA"
+   name:  AAAA
 
+User(BBBB):
+   id:    "https://id.mixi.jp/BBBB"
+   name:  BBBB
+
+User(CCCC):
+   id:    "https://id.mixi.jp/CCCC"
+   name:  CCCC
 
 
 Part(a):
    is_in_recruitment:      true
-   participant:            わたしわたし
+   participant:            AAAA
 
 Part(b):
    is_in_recruitment:      true
@@ -32,7 +42,7 @@ Part(b):
 
 Part(c):
    is_in_recruitment:      true
-   participant:            hoge
+   participant:            BBBB
 
 Part(d):
    is_in_recruitment:      false
@@ -40,7 +50,7 @@ Part(d):
 
 Part(e):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            CCCC
 
 Part(f):
    is_in_recruitment:      true
@@ -48,11 +58,11 @@ Part(f):
 
 Part(g):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            AAAA
 
 Part(h):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            BBBB
 
 Part(i):
    is_in_recruitment:      true
@@ -64,7 +74,7 @@ Part(1):
 
 Part(2):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            CCCC
 
 Part(3):
    is_in_recruitment:      true
@@ -76,23 +86,23 @@ Part(4):
 
 Part(5):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            AAAA
 
 Part(6):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            BBBB
 
 Part(7):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            CCCC
 
 Part(8):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            AAAA
 
 Part(9):
    is_in_recruitment:      true
-   participant:            fadfafadfa
+   participant:            BBBB
 
 Song(test):
    title:        test

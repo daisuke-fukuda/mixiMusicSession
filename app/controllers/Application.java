@@ -4,9 +4,10 @@ import java.util.List;
 
 import models.Event;
 import models.Song;
-import play.mvc.Before;
+import models.User;
 import play.mvc.Controller;
 import play.mvc.With;
+import util.ControllerUtil;
 import util.CustomList;
 import util.SongState;
 
@@ -144,20 +145,22 @@ public class Application extends Controller {
 
 		song.event = Event.findById(eventId);
 		song.state = SongState.IN_WANTING;
+
+		User user = ControllerUtil.getLoginUser();
 		if(is_desire_vocal){
-			song.vocal.setParticipant(session.get("username"));
+			song.vocal.setParticipant(user);
 		}
 		if(is_desire_guitar1){
-			song.guitar1.setParticipant(session.get("username"));
+			song.guitar1.setParticipant(user);
 		}
 		if(is_desire_base){
-			song.base.setParticipant(session.get("username"));
+			song.base.setParticipant(user);
 		}
 		if(is_desire_drums){
-			song.drums.setParticipant(session.get("username"));
+			song.drums.setParticipant(user);
 		}
 		if(is_desire_keybord1){
-			song.keybord1.setParticipant(session.get("username"));
+			song.keybord1.setParticipant(user);
 		}
 
 
@@ -272,23 +275,23 @@ public class Application extends Controller {
 	                                  , boolean is_desire_keybord1) {
 
 
+		User user = ControllerUtil.getLoginUser();
 
 		if(is_desire_vocal){
-			song.vocal.setParticipant(session.get("username"));
+			song.vocal.setParticipant(user);
 		}
 		if(is_desire_guitar1){
-			song.guitar1.setParticipant(session.get("username"));
+			song.guitar1.setParticipant(user);
 		}
 		if(is_desire_base){
-			song.base.setParticipant(session.get("username"));
+			song.base.setParticipant(user);
 		}
 		if(is_desire_drums){
-			song.drums.setParticipant(session.get("username"));
+			song.drums.setParticipant(user);
 		}
 		if(is_desire_keybord1){
-			song.keybord1.setParticipant(session.get("username"));
+			song.keybord1.setParticipant(user);
 		}
-
 
 		song.save();
 		flash.success("便乗しました。");

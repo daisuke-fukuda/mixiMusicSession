@@ -1,8 +1,7 @@
 package models;
 
 import javax.persistence.Entity;
-
-import org.apache.commons.lang.StringUtils;
+import javax.persistence.ManyToOne;
 
 import play.data.validation.MaxSize;
 import play.db.jpa.Model;
@@ -26,13 +25,13 @@ public class Part extends Model {
 	public String name = "";
 
 
-	@MaxSize(255)
-	private String participant = "";
+	@ManyToOne
+	private User participant;
 
 	public boolean isParticipating(){
 
 		if (is_in_recruitment) {
-			if (StringUtils.isBlank(participant)) {
+			if (participant == null) {
 				return false;
 			} else {
 				return true;
@@ -46,7 +45,7 @@ public class Part extends Model {
 	public boolean isWanting(){
 
 		if (is_in_recruitment) {
-			if (StringUtils.isBlank(participant)) {
+			if (participant == null) {
 				return true;
 			} else {
 				return false;
@@ -59,23 +58,23 @@ public class Part extends Model {
 
 	public String getParticipant() {
 		if (is_in_recruitment) {
-			if (StringUtils.isBlank(participant)) {
+			if (participant == null) {
 				return NOW_RECRUITMENT;
 			} else {
-				return participant;
+				return participant.name;
 			}
 		} else {
 			return NOT_RECRUITMENT;
 		}
 	}
 
-	public void setParticipant(String participant) {
+	public void setParticipant(User participant) {
 		this.participant = participant;
 	}
 
 	@Override
 	public String toString(){
-		return participant==null ? "" : participant;
+		return participant==null ? "" : participant.name;
 	}
 
 }

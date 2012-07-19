@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.jpa.GenericModel;
+import play.mvc.Scope.Session;
 
 @Entity(name="user_info")
 public class User extends GenericModel {
@@ -20,6 +21,7 @@ public class User extends GenericModel {
 
 		return name;
 	}
+
 
 
 }

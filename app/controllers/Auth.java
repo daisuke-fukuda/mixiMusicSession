@@ -17,7 +17,7 @@ public class Auth extends Controller {
 	}
 
 	private static boolean isLoggedIn() {
-		return session.contains("username");
+		return session.contains("id");
 	}
 
 	public static void login() {
@@ -46,7 +46,7 @@ public class Auth extends Controller {
 			String nickname = userInfo.extensions.get("nickname");
 			String id = userInfo.id;
 
-			session.put("username", nickname);
+			session.put("nickname", nickname);
 			session.put("id", id);
 
 			// ユーザー情報をアプリで保持
