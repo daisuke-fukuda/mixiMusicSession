@@ -51,8 +51,8 @@ is_desire_keybord1=Key1
 event.title=イベント名
 event.communityId=コミュニティID
 event.date=日付
-event.startAt=開始時間（例 12:30）
-event.endAt=終了時間（例 21:00）
+event.startAtTime=開始時間
+event.endAtTime=終了時間
 event.place=場所
 event.content=内容
 

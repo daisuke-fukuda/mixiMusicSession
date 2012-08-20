@@ -24,26 +24,6 @@
 		#{if flash.success}
 		<div class="crudFlash flashSuccess  alert alert-success">
 			<p>${flash.success}</p>
-		<textarea type name="result" id="result" onChange="clip.setText(this.value)" rows=6 class="span3">${flash.result}</textarea>
-			<input type="submit" id="copyButton" value="コピー"  class='btn'/>
-			<script type="text/javascript">
-				// テキストエリア
-				  var target = document.getElementById('result')
-				// ボタン
-				  var btn = document.getElementById('copyButton')
-				// インスタンス
-				  var clip = new ZeroClipboard.Client();
-				// マウスオン時のカーソルの設定
-				  clip.setHandCursor(true);
-				  clip.setText(target.value);
-				// 2回目以降に備える
-				  if (clip.div) {
-					clip.receiveEvent('mouseout', null);
-					clip.reposition(btn);
-				  } else {
-					clip.glue(btn);
-				  }
-			</script>
 		</div>
 		#{/if}
 
@@ -55,7 +35,7 @@
 			#{textField name:'event.title'  /}
 			#{textField name:'event.communityId' /}
 
-			#{field 'event.date'}
+			#{field 'date'}
 				<div class="control-group">
 				    <label for="dp2" class="control-label">&{'event.date'}</label>
 				    <div class="controls">
@@ -67,8 +47,33 @@
 				    </div>
 				</div>
 			#{/field}
-			#{textField name:'event.startAt' /}
-			#{textField name:'event.endAt' /}
+
+			#{field 'startAtTime'}
+				<div class="control-group">
+				    <label for="startAtTime" class="control-label">&{'event.startAtTime'}</label>
+				    <div class="controls">
+				        <input id="startAtTime" class="${field.errorClass}" type="text" name="${field.name}"  />
+				        #{ifError field.name}
+				            <span class="label label-important help-inline">${field.error.raw()}</span>
+				        #{/ifError}
+				        <span class="help-inline">${_help}</span>
+				    </div>
+				</div>
+			#{/field}
+
+			#{field 'endAtTime'}
+				<div class="control-group">
+				    <label for="endAtTime" class="control-label">&{'event.endAtTime'}</label>
+				    <div class="controls">
+				        <input id="endAtTime" class="${field.errorClass}" type="text" name="${field.name}"  />
+				        #{ifError field.name}
+				            <span class="label label-important help-inline">${field.error.raw()}</span>
+				        #{/ifError}
+				        <span class="help-inline">${_help}</span>
+				    </div>
+				</div>
+			#{/field}
+
 			#{textField name:'event.place' /}
 			#{textField name:'event.content' /}
 
@@ -87,4 +92,26 @@
 		window.prettyPrint && prettyPrint();
 		$('#dp2').datepicker();
 	});
+
+	$(function(){
+		$("#startAtTime").clockpick({
+			starthour: 0,
+			endhour: 23,
+			showminutes: true,
+			minutedivisions: 4,
+			military: true
+		});
+	});
+
+
+	$(function(){
+		$("#endAtTime").clockpick({
+			starthour: 0,
+			endhour: 23,
+			showminutes: true,
+			minutedivisions: 4,
+			military: true
+		});
+	});
+
 </script>

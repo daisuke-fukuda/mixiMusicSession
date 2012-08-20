@@ -1,5 +1,9 @@
 package controllers;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import models.Event;
@@ -392,7 +396,17 @@ public class Application extends Controller {
 
 
 
-	public static void createEventSave(Event event){
+	public static void createEventSave(Event event, String date, String startAtTime, String endAtTime ) throws ParseException{
+
+
+		//時刻を編集
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+		event.startAt = format.parse(date + " " + startAtTime);
+		event.endAt = format.parse(date + " " + endAtTime);
+
+
+
+
 		event.save();
 		flash.success("作成しました。");
 		createEvent();

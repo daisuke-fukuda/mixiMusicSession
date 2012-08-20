@@ -31,6 +31,8 @@ public class Event extends Model {
 	@MaxSize(255)
 	public String title;
 
+	public Long communityId;
+
 	public Date startAt;
 
 	public Date endAt;
@@ -47,7 +49,6 @@ public class Event extends Model {
 
 	@Override
 	public String toString() {
-
 		return title;
 	}
 
