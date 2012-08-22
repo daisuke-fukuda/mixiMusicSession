@@ -1,4 +1,4 @@
-#{extends 'main.html' /} #{set title:"イベント編集：" + post?.title /}
+#{extends 'main.html' /} #{set title:"曲の編集：" + song.title /}
 
 
 <div class="row-fluid">
@@ -21,7 +21,7 @@
 
 
 		<div class="page-header">
-			<h2>編集</h2>
+			<h2>曲の編集</h2>
 		</div>
 
 
@@ -61,45 +61,43 @@
 		#{form @editSongSave(eventId),class:'form-horizontal'}
 		<fieldset>
 
-		<input type="hidden" value="${song?.id}" name="song.id"/>
-		<input type="hidden" value="${song?.vocal?.id}" name="song.vocal.id"/>
-		<input type="hidden" value="${song?.guitar1?.id}" name="song.guitar1.id"/>
-        <input type="hidden" value="${song?.drums?.id}" name="song.drums.id"/>
-        <input type="hidden" value="${song?.base?.id}" name="song.base.id"/>
-        <input type="hidden" value="${song?.keybord1?.id}" name="song.keybord1.id"/>
-
+		<input type="hidden" value="${song?.id}" name="songId"/>
 
 		<div class="control-group">
 			<label class="control-label" for="song.songState">状況</label>
 			<div class="controls">
-			#{select "song.state", items:util.SongState.values(),  labelProperty: 'name', valueProperty:util.SongState.name, id:'song.songState', value:song.state /}
+			#{select "state", items:util.SongState.values(),  labelProperty: 'name', valueProperty:util.SongState.name, id:'song.songState', value:song.state /}
 			</div>
 		</div>
-		#{textField name:'song.title', value:song?.title, help:null /}
-        #{textField name:'song.singer', value:song?.singer, help:null /}
 
+		#{textField name:'title', viewName:'song.title', value:song?.title, help:null /}
+		#{textField name:'singer', viewName:'song.singer', value:song?.singer, help:null /}
 
 
         <div class="control-group">
 			<label class="control-label" for="inlineCheckboxes">募集パート</label>
 				<div class="controls">
-				#{checkboxInlineField name:'song.vocal.is_in_recruitment', value:song.vocal.is_in_recruitment /}
-				#{checkboxInlineField name:'song.guitar1.is_in_recruitment', value:song.guitar1.is_in_recruitment /}
-				#{checkboxInlineField name:'song.base.is_in_recruitment', value:song.base.is_in_recruitment /}
-				#{checkboxInlineField name:'song.drums.is_in_recruitment', value:song.drums.is_in_recruitment /}
-				#{checkboxInlineField name:'song.keybord1.is_in_recruitment', value:song.keybord1.is_in_recruitment /}
+				#{list items:song.parts, as:'part'}
+					#{checkboxInlineField viewName:part.eventPart.partName, name:'wantedParts[]', value:part.eventPart.id, checked:part.is_in_recruitment /}
+				#{/list}
 			  	</div>
 		</div>
 
+		#{list items:song.parts, as:'part'}
+		<div class="control-group">
+			<label class="control-label" for="song.songState">参加者（${part.eventPart.partName}）</label>
+			<div class="controls">
+				#{select "participants[]"
+					, items:event.getParticipantsTargetList()
+					, labelProperty: 'name'
+					, valueProperty:'id'
+					, id:part.id
+					, value:part.participant?.id /}
+			</div>
+		</div>
+		#{/list}
 
-        #{textField name:'song.vocal.participant', value:song?.vocal /}
-        #{textField name:'song.guitar1.participant', value:song?.guitar1 /}
-        #{textField name:'song.base.participant', value:song?.base /}
-        #{textField name:'song.drums.participant', value:song?.drums /}
-        #{textField name:'song.keybord1.participant', value:song?.keybord1 /}
-
-
-        #{textField name:'song.remarks', value:song?.remarks, help:null /}
+		#{textField name:'remarks', viewName:'song.remarks', value:song?.remarks, help:null /}
 
 		<div class="form-actions">
 				<input type="submit" value="編集" class="btn btn-success" />

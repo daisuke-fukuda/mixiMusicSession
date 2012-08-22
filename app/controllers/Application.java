@@ -1,18 +1,20 @@
 package controllers;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Event;
+import models.Part;
 import models.Song;
 import models.User;
+
+import org.apache.commons.lang.StringUtils;
+
 import play.mvc.Controller;
 import play.mvc.With;
-import util.ControllerUtil;
-import util.CustomList;
+import util.Util;
 import util.SongState;
 
 
@@ -28,6 +30,54 @@ public class Application extends Controller {
     	List<Event> eventList = Event.findAll();
         render(eventList);
     }
+
+
+	public static void createEvent(){
+		render();
+	}
+
+
+
+
+	public static void createEventSave(Event event
+										, String date
+										, String startAtTime
+										, String endAtTime
+										, String wantedParts) throws ParseException{
+
+
+		//時刻を編集
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+		if ( StringUtils.isNotBlank(startAtTime)){
+			event.startAt = format.parse(date + " " + startAtTime);
+		}
+		if ( StringUtils.isNotBlank(endAtTime)){
+			event.endAt = format.parse(date + " " + endAtTime);
+		}
+		//募集パートを分解
+		String[] wantedPartsArray = wantedParts.split(" +");
+		event.setWantedPartsByArray(wantedPartsArray);
+
+		// 参加者に主催者を登録
+		event.participants.add(Util.getLoginUser());
+
+		event.save();
+		flash.success("作成しました。");
+		createEvent();
+	}
+
+
+
+
+	public static void participateEvent(Long id) {
+		Event event = Event.findById(id);
+		event.participants.add(Util.getLoginUser());
+		event.save();
+
+		index();
+	}
+
+
 
     public static void deleteEvent(Long id) {
 
@@ -46,6 +96,68 @@ public class Application extends Controller {
 
 
 
+	public static void createSong(Long eventId) {
+
+		Event event = Event.findById(eventId);
+		render(event, eventId);
+
+	}
+
+
+
+
+	public static void createSongSave(Long eventId
+	                                  , String title
+	                                  , String singer
+	                                  , String remarks
+	                                  , List<Long> wantedParts
+	                                  , List<Long> participateParts
+	                                  ) {
+
+		//TODO バリデーション
+
+
+		//保存
+		Event event = Event.findById(eventId);
+		Song song = new Song(event);
+		song.state = SongState.IN_WANTING;
+		song.title = title;
+		song.singer = singer;
+		song.remarks = remarks;
+		song.setRecruitmentParts(wantedParts);
+		song.setParticipateParts(participateParts);
+		song.save();
+		flash.success("作成しました。");
+
+
+
+		/*
+		 * 結果イメージ
+		 *
+		 * ★【新規】**************************************
+		 * 曲名：hogehoge
+		 * 状況：募集中
+		 * 希望パート:Vo
+		 * 募集パート:Gt1,Gt2,Key
+		 * 備考：hogehoge
+		 * ************************************************
+		 */
+
+		String result = Util.appendLn
+				("★【新規】**************************************"
+				, "曲名：" + song.title
+				, "状況：" + song.state.getName()
+				,"希望パート：" + song.findPartsName(participateParts)
+				,"募集パート：" + song.findIsInRecruitmentPartsName()
+				,"備考：" + song.remarks
+				,"************************************************"
+				);
+		flash.put("result", result);
+
+
+		createSong(eventId);
+
+	}
 	public static void deleteSong(Long songId, Long eventId) {
 		Song.findById(songId)._delete();
 
@@ -62,21 +174,38 @@ public class Application extends Controller {
     	List<Song> songList = Song.find("byEvent", event).fetch();
 
 
-		render(song,songList);
+		render(song ,songList, event);
 
 	}
 
-	public static void editSongSave(Song song) {
+	public static void editSongSave( Long songId
+					, SongState state
+					, String title
+		            , String singer
+		            , String remarks
+		            , List<Long> wantedParts
+		            , List<String> participants
+		            ) {
+		//TODO バリデーション
+
+
+
+		// 入力値の編集
+		Song song = Song.findById(songId);
+		song.state = state;
+		song.title = title;
+		song.singer = singer;
+		song.remarks = remarks;
+		song.setRecruitmentParts(wantedParts);
+		song.setParticipants(participants);
+
+		// 保存
 		song.save();
 		flash.success("変更しました。");
 
 
 
-
-
-
 		/*
-		 *
 		 * 結果イメージ
 		 *
 		 * ★【変更】**************************************
@@ -86,173 +215,20 @@ public class Application extends Controller {
 		 * 備考：hogehoge
 		 * ************************************************
 		 */
-
-		StringBuilder result = new StringBuilder();
-		String BR = System.getProperty("line.separator");
-		result.append("★【変更】**************************************");
-		result.append(BR);
-		result.append("曲名：" + song.title);
-		result.append(BR);
-
-		result.append("状況：" + song.state.getName());
-		result.append(BR);
-
-
-		List<String> wantedPartList = new CustomList<String>();
-		if ( song.vocal.isWanting() ){
-			wantedPartList.add("Vo");
-		}
-		if (song.guitar1.isWanting()) {
-			wantedPartList.add("Gt1");
-		}
-		if (song.base.isWanting()) {
-			wantedPartList.add("Ba");
-		}
-		if (song.drums.isWanting()) {
-			wantedPartList.add("Dr");
-		}
-		if (song.keybord1.isWanting()) {
-			wantedPartList.add("Key1");
-		}
-		result.append("募集パート：" + wantedPartList.toString());
-		result.append(BR);
-
-		result.append("備考：" + song.remarks);
-		result.append(BR);
-
-		result.append("************************************************");
-		flash.put("result", result.toString());
-
-
+		String result = Util.appendLn
+				("★【変更】**************************************"
+				, "曲名：" + song.title
+				, "状況：" + song.state.getName()
+				,"募集パート：" + song.findIsInRecruitmentPartsName()
+				,"備考：" + song.remarks
+				,"************************************************"
+				);
+		flash.put("result", result);
 
 
 		editSong(song.id);
 
 	}
-
-
-	public static void createSong(Long eventId) {
-
-		render(eventId);
-
-	}
-
-	public static void createSongSave(Long eventId
-	                                  , Song song
-	                                  , boolean is_desire_vocal
-	                                  , boolean is_desire_guitar1
-	                                  , boolean is_desire_base
-	                                  , boolean is_desire_drums
-	                                  , boolean is_desire_keybord1) {
-
-
-
-		song.event = Event.findById(eventId);
-		song.state = SongState.IN_WANTING;
-
-		User user = ControllerUtil.getLoginUser();
-		if(is_desire_vocal){
-			song.vocal.setParticipant(user);
-		}
-		if(is_desire_guitar1){
-			song.guitar1.setParticipant(user);
-		}
-		if(is_desire_base){
-			song.base.setParticipant(user);
-		}
-		if(is_desire_drums){
-			song.drums.setParticipant(user);
-		}
-		if(is_desire_keybord1){
-			song.keybord1.setParticipant(user);
-		}
-
-
-		song.save();
-		flash.success("作成しました。");
-
-
-
-
-		/*
-		 *
-		 * 結果イメージ
-		 *
-		 * ★【新規】**************************************
-		 * 曲名：hogehoge
-		 * 状況：募集中
-		 * 希望パート:Vo
-		 * 募集パート:Gt1,Gt2,Key
-		 * 備考：hogehoge
-		 * ************************************************
-		 */
-
-		StringBuilder result = new StringBuilder();
-		String BR = System.getProperty("line.separator");
-		result.append("★【新規】**************************************");
-		result.append(BR);
-		result.append("曲名：" + song.title);
-		result.append(BR);
-
-		result.append("状況：" + song.state.getName());
-		result.append(BR);
-
-
-		List<String> desiredPartList = new CustomList<String>();
-
-		if (song.vocal.isParticipating()){
-			desiredPartList.add("Vo");
-		}
-		if (song.guitar1.isParticipating()) {
-			desiredPartList.add("Gt1");
-		}
-		if (song.base.isParticipating()) {
-			desiredPartList.add("Ba");
-		}
-		if (song.drums.isParticipating()) {
-			desiredPartList.add("Dr");
-		}
-		if (song.keybord1.isParticipating()) {
-			desiredPartList.add("Key1");
-		}
-
-		result.append("希望パート：" + desiredPartList.toString());
-		result.append(BR);
-
-
-		List<String> wantedPartList = new CustomList<String>();
-		if ( song.vocal.isWanting() ){
-			wantedPartList.add("Vo");
-		}
-		if (song.guitar1.isWanting()) {
-			wantedPartList.add("Gt1");
-		}
-		if (song.base.isWanting()) {
-			wantedPartList.add("Ba");
-		}
-		if (song.drums.isWanting()) {
-			wantedPartList.add("Dr");
-		}
-		if (song.keybord1.isWanting()) {
-			wantedPartList.add("Key1");
-		}
-		result.append("募集パート：" + wantedPartList.toString());
-		result.append(BR);
-
-		result.append("備考：" + song.remarks);
-		result.append(BR);
-
-		result.append("************************************************");
-		flash.put("result", result.toString());
-
-
-
-
-		createSong(eventId);
-
-	}
-
-
 
 
 
@@ -271,37 +247,25 @@ public class Application extends Controller {
 	}
 
 
-	public static void participateSongSave(Song song
-	                                  , boolean is_desire_vocal
-	                                  , boolean is_desire_guitar1
-	                                  , boolean is_desire_base
-	                                  , boolean is_desire_drums
-	                                  , boolean is_desire_keybord1) {
+	public static void participateSongSave(Long songId
+									, SongState state
+									, String title
+									, String singer
+									, String remarks
+									, List<Long> participateParts
+									) {
+		//TODO バリデーション
 
 
-		User user = ControllerUtil.getLoginUser();
+		// 入力値の編集
+		Song song = Song.findById(songId);
+		song.state = state;
+		song.remarks = remarks;
+		song.setParticipateParts(participateParts);
 
-		if(is_desire_vocal){
-			song.vocal.setParticipant(user);
-		}
-		if(is_desire_guitar1){
-			song.guitar1.setParticipant(user);
-		}
-		if(is_desire_base){
-			song.base.setParticipant(user);
-		}
-		if(is_desire_drums){
-			song.drums.setParticipant(user);
-		}
-		if(is_desire_keybord1){
-			song.keybord1.setParticipant(user);
-		}
-
+		// 保存
 		song.save();
 		flash.success("便乗しました。");
-
-
-
 
 		/*
 		 *
@@ -314,71 +278,16 @@ public class Application extends Controller {
 		 * 備考：hogehoge
 		 * ************************************************
 		 */
-
-		StringBuilder result = new StringBuilder();
-		String BR = System.getProperty("line.separator");
-
-		if(song.state == SongState.ESTABLISHED) {
-			result.append("★【成立】**************************************");
-		} else {
-			result.append("★【便乗】**************************************");
-		}
-		result.append(BR);
-		result.append("曲名：" + song.title);
-		result.append(BR);
-
-		result.append("状況：" + song.state.getName());
-		result.append(BR);
-
-
-		List<String> desiredPartList = new CustomList<String>();
-
-		if (is_desire_vocal){
-			desiredPartList.add("Vo");
-		}
-		if (is_desire_guitar1) {
-			desiredPartList.add("Gt1");
-		}
-		if (is_desire_base) {
-			desiredPartList.add("Ba");
-		}
-		if (is_desire_drums) {
-			desiredPartList.add("Dr");
-		}
-		if (is_desire_keybord1) {
-			desiredPartList.add("Key1");
-		}
-
-		result.append("希望パート：" + desiredPartList.toString());
-		result.append(BR);
-
-
-		List<String> wantedPartList = new CustomList<String>();
-		if ( song.vocal.isWanting() ){
-			wantedPartList.add("Vo");
-		}
-		if (song.guitar1.isWanting()) {
-			wantedPartList.add("Gt1");
-		}
-		if (song.base.isWanting()) {
-			wantedPartList.add("Ba");
-		}
-		if (song.drums.isWanting()) {
-			wantedPartList.add("Dr");
-		}
-		if (song.keybord1.isWanting()) {
-			wantedPartList.add("Key1");
-		}
-		result.append("募集パート：" + wantedPartList.toString());
-		result.append(BR);
-
-		result.append("備考：" + song.remarks);
-		result.append(BR);
-
-		result.append("************************************************");
-		flash.put("result", result.toString());
-
-
+		String result = Util.appendLn
+				("★【便乗】**************************************"
+				, "曲名：" + song.title
+				, "状況：" + song.state.getName()
+				,"希望パート：" + song.findPartsName(participateParts)
+				,"募集パート：" + song.findIsInRecruitmentPartsName()
+				,"備考：" + song.remarks
+				,"************************************************"
+				);
+		flash.put("result", result);
 
 
 		participateSong(song.id);
@@ -387,37 +296,6 @@ public class Application extends Controller {
 
 
 
-
-
-	public static void createEvent(){
-		render();
-	}
-
-
-
-
-	public static void createEventSave(Event event, String date, String startAtTime, String endAtTime ) throws ParseException{
-
-
-		//時刻を編集
-		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-		event.startAt = format.parse(date + " " + startAtTime);
-		event.endAt = format.parse(date + " " + endAtTime);
-
-
-
-
-		event.save();
-		flash.success("作成しました。");
-		createEvent();
-	}
-
-
-
-
-	public static void participateEvent(Long id) {
-		index();
-	}
 
 
 
