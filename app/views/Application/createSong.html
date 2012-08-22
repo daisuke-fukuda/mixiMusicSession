@@ -1,5 +1,5 @@
 #{extends 'main.html' /}
-#{set title:'イベント新規作成' /}
+#{set title:'曲の登録' /}
 
 
 <div class="row-fluid">
@@ -11,7 +11,7 @@
 
 
 		<div class="page-header">
-			<h2>新規作成</h2>
+			<h2>曲の登録</h2>
 		</div>
 
 
@@ -54,37 +54,33 @@
 			#{form @createSongSave(eventId), class:'form-horizontal'}
 			<fieldset>
 
-			#{textField name:'song.title', value:song?.title, help:null /}
-			#{textField name:'song.singer', value:song?.singer, help:null /}
+			#{textField name:'title', viewName:'song.title', value:song?.title, help:null /}
+			#{textField name:'singer', viewName:'song.singer', value:song?.singer, help:null /}
 
 
 			<div class="control-group">
 			<label class="control-label" for="inlineCheckboxes">募集パート</label>
 				<div class="controls">
-				#{checkboxInlineField name:'song.vocal.is_in_recruitment' /}
-				#{checkboxInlineField name:'song.guitar1.is_in_recruitment' /}
-				#{checkboxInlineField name:'song.base.is_in_recruitment' /}
-				#{checkboxInlineField name:'song.drums.is_in_recruitment' /}
-				#{checkboxInlineField name:'song.keybord1.is_in_recruitment' /}
+				#{list items:event.wantedParts, as:'part'}
+					#{checkboxInlineField viewName:part, name:'wantedParts[]', value:part.id, checked:'true' /}
+				#{/list}
 			  	</div>
 		  	</div>
 
 			<div class="control-group">
 			<label class="control-label" for="inlineCheckboxes">自分の参加パート</label>
 				<div class="controls">
-				#{checkboxInlineField name:'is_desire_vocal' /}
-				#{checkboxInlineField name:'is_desire_guitar1' /}
-				#{checkboxInlineField name:'is_desire_base' /}
-				#{checkboxInlineField name:'is_desire_drums' /}
-				#{checkboxInlineField name:'is_desire_keybord1' /}
+				#{list items:event.wantedParts, as:'part'}
+					#{checkboxInlineField viewName:part, name:'participateParts[]', value:part.id /}
+				#{/list}
 			  	</div>
 		  	</div>
 
-			#{textField name:'song.remarks', value:song?.remarks, help:null /}
+			#{textField name:'remarks', viewName:'song.remarks', value:song?.remarks, help:null /}
 
 
 			<div class="form-actions">
-				<input type="submit" value="作成" class="btn btn-success" />
+				<input type="submit" value="登録" class="btn btn-success" />
 			  	</div>
 			</fieldset>
 			#{/form}

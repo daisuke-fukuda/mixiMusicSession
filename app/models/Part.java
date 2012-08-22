@@ -1,5 +1,6 @@
 package models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -9,25 +10,27 @@ import play.db.jpa.Model;
 @Entity
 public class Part extends Model {
 
-	public Part(String name){
-		this.name = name;
-	}
-
 
 
 
 	private final String NOW_RECRUITMENT = "募集中";
 	private final String NOT_RECRUITMENT = "-";
 
+
+	//募集するパートかどうか
 	public boolean is_in_recruitment = false;
 
-	@MaxSize(255)
-	public String name = "";
 
+	@ManyToOne(cascade=CascadeType.ALL)
+	public EventPart eventPart;
 
 	@ManyToOne
-	private User participant;
+	public User participant;
 
+
+	/**
+	 * @return 応募者がいるか
+	 */
 	public boolean isParticipating(){
 
 		if (is_in_recruitment) {
@@ -42,6 +45,10 @@ public class Part extends Model {
 
 	}
 
+
+	/**
+	 * @return 募集中か
+	 */
 	public boolean isWanting(){
 
 		if (is_in_recruitment) {
@@ -56,7 +63,7 @@ public class Part extends Model {
 
 	}
 
-	public String getParticipant() {
+	public String getParticipantName() {
 		if (is_in_recruitment) {
 			if (participant == null) {
 				return NOW_RECRUITMENT;

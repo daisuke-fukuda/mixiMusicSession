@@ -64,13 +64,13 @@
 			#{form @participateSongSave(eventId), class:'form-horizontal'}
 			<fieldset>
 
-			<input type="hidden" name="song.id" value="${song.id}" />
+			<input type="hidden" name="songId" value="${song.id}" />
 
 
 			<div class="control-group">
 				<label class="control-label" for="song.songState">状況</label>
 				<div class="controls">
-				#{select "song.state", items:util.SongState.values(),  labelProperty: 'name', valueProperty:util.SongState.name, id:'song.songState', value:song.state /}
+				#{select "state", items:util.SongState.values(),  labelProperty: 'name', valueProperty:util.SongState.name, id:'song.songState', value:song.state /}
 				</div>
 			</div>
 
@@ -80,31 +80,15 @@
 			<div class="control-group">
 			<label class="control-label" for="inlineCheckboxes">便乗パート</label>
 				<div class="controls">
-
-				#{if song.vocal.wanting}
-				#{checkboxInlineField name:'is_desire_vocal' /}
-				#{/if}
-
-				#{if song.guitar1.wanting}
-				#{checkboxInlineField name:'is_desire_guitar1' /}
-				#{/if}
-
-				#{if song.base.wanting}
-				#{checkboxInlineField name:'is_desire_base' /}
-				#{/if}
-
-				#{if song.drums.wanting}
-				#{checkboxInlineField name:'is_desire_drums' /}
-				#{/if}
-
-				#{if song.keybord1.wanting}
-				#{checkboxInlineField name:'is_desire_keybord1' /}
-			  	#{/if}
+				#{list items:song.parts, as:'part'}
+					#{if part.wanting}
+						#{checkboxInlineField viewName:part.eventPart.partName, name:'participateParts[]', value:part.eventPart.id /}
+					#{/if}
+				#{/list}
 			  	</div>
 		  	</div>
 
-			#{textField name:'song.remarks', value:song?.remarks, help:null /}
-
+			#{textField name:'remarks', viewName:'song.remarks', value:song?.remarks, help:null /}
 
 			<div class="form-actions">
 				<input type="submit" value="便乗" class="btn btn-success" />
