@@ -117,7 +117,7 @@ public class Song extends Model {
 			for (Long id : eventPartId) {
 				partNames.add(findPartByEventPartId(id).eventPart.partName);
 			}
-			return Util.getFormattedString(partNames);
+			return Util.list2StringWithoutBrackets(partNames);
 		}
 
 		return "";
@@ -136,7 +136,7 @@ public class Song extends Model {
 			}
 		}
 
-		return Util.getFormattedString(partNames);
+		return Util.list2StringWithoutBrackets(partNames);
 	}
 
 	/**

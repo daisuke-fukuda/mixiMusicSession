@@ -3,15 +3,14 @@ package util;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import models.User;
 import play.mvc.Controller;
 
 /**
- * @author moyashi
  *
- */
-/**
- * @author moyashi
+ * @author moyashidaisuke
  *
  */
 public class Util extends Controller {
@@ -26,12 +25,16 @@ public class Util extends Controller {
 	 */
 	public static User getLoginUser() {
 
-		User user = User.findById(session.get("id"));
-		if (user == null) {
-			return null;
-		} else {
-			return user;
+
+		String id = session.get("id");
+		if ( StringUtils.isNotBlank(id)){
+			User user = User.findById(id);
+			if (user != null) {
+				return user;
+			}
 		}
+
+		return null;
 
 	}
 
@@ -44,20 +47,14 @@ public class Util extends Controller {
 	 * @param 整形出力したいList
 	 * @return 整形済のString
 	 */
-	public static String getFormattedString(List list) {
+	public static String list2StringWithoutBrackets(List list) {
 
-		Iterator<Object> i = list.iterator();
-		if (!i.hasNext())
-			return "";
-		StringBuilder sb = new StringBuilder();
-		for (;;) {
-			Object e = i.next();
-			sb.append(e);
-			if (!i.hasNext())
-				return sb.toString();
-			sb.append(", ");
+		if (list != null){
+			String s = list.toString();
+			//最初と最後の括弧を削除
+			return s.substring(1, s.length() - 1);
 		}
-
+		return "";
 	}
 
 
@@ -68,25 +65,24 @@ public class Util extends Controller {
 	 * @param 結合したい文字列
 	 * @return String
 	 */
-	public static String appendLn(String... strings){
+	public static String appendLn(String... strings) {
 
-		int length = 0;
-		if (strings == null || (length = strings.length) == 0){
-			return "";
-		} else {
-			final String BR = System.getProperty("line.separator");
-			StringBuilder sb = new StringBuilder();
-			String s;
-			for (int i = 0 ; i < length - 1 ; i++){
-				s = strings[i];
-				sb.append(s + BR);
+		if (strings != null) {
+			int length = strings.length;
+			if (length != 0) {
+				final String BR = System.getProperty("line.separator");
+				StringBuilder sb = new StringBuilder();
+				String s;
+				for (int i = 0; i < length - 1; i++) {
+					s = strings[i];
+					sb.append(s + BR);
+				}
+				sb.append(strings[length - 1]);
+				return sb.toString();
 			}
-			sb.append(strings[length - 1]);
-			return sb.toString();
 		}
-
+		return "";
 	}
-
 
 
 }
