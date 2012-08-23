@@ -11,7 +11,6 @@ import models.EventPart;
 
 import org.junit.Test;
 
-import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.Http.Response;
 import play.test.Fixtures;

@@ -10,9 +10,9 @@ import models.EventPart;
 import models.Part;
 import models.Song;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import play.mvc.Before;
 import play.test.Fixtures;
 import play.test.UnitTest;
 
