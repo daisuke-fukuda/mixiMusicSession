@@ -1,5 +1,7 @@
 package controllers;
 
+import org.apache.commons.lang.StringUtils;
+
 import models.User;
 import play.libs.OpenID;
 import play.libs.OpenID.UserInfo;
@@ -17,7 +19,13 @@ public class Auth extends Controller {
 	}
 
 	private static boolean isLoggedIn() {
-		return session.contains("id");
+		String id = session.get("id");
+		if (StringUtils.isNotBlank(id)) {
+			if (User.findById(id) != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void login() {
@@ -46,7 +54,7 @@ public class Auth extends Controller {
 			String nickname = userInfo.extensions.get("nickname");
 			String id = userInfo.id;
 
-			session.put("nickname", nickname);
+			session.put("userName", nickname);
 			session.put("id", id);
 
 			// ユーザー情報をアプリで保持
