@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import util.Const;
 
 @Entity
 public class Event extends Model {
@@ -50,26 +51,31 @@ public class Event extends Model {
 	public List<EventPart> wantedParts = new ArrayList<EventPart>();
 
 
-	public void setWantedPartsByArray(String[] wantedPartsArray) {
+	/**
+	 * @param 追加したいwantedPartsのname配列
+	 */
+	public void addWantedParts(String[] wantedPartsNames) {
 
-		List<EventPart> wantedPartsList = new ArrayList();
-		for (String wantedPartName : wantedPartsArray){
-			wantedPartsList.add(new EventPart(wantedPartName));
+		if ( wantedPartsNames != null){
+			for (String wantedPartName : wantedPartsNames){
+				wantedParts.add(new EventPart(wantedPartName));
+			}
 		}
-
-		this.wantedParts = wantedPartsList;
 
 	}
 
+	/**
+	 * @return コンボボックス用の参加者のList。先頭はダミーユーザー（選択なし）。
+	 */
 	public List<User> getParticipantsTargetList(){
 
 		List<User> list = new ArrayList();
 
 		User notAssigned = new User();
-		notAssigned.id = "dummyUser";
-		notAssigned.name = "-";
-
+		notAssigned.id = Const.USER_ID_DUMMY;
+		notAssigned.name = Const.USER_NAME_DUMMY;
 		list.add(notAssigned);
+
 		list.addAll(participants);
 		return list;
 		}

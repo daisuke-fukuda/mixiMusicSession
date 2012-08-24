@@ -4,10 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.jpa.GenericModel;
-import play.mvc.Scope.Session;
 
 @Entity(name="user_info")
-public class User extends GenericModel {
+public class User<T> extends GenericModel implements Comparable<T> {
 
 	@Id
 	public String id;
@@ -20,6 +19,13 @@ public class User extends GenericModel {
 	public String toString() {
 
 		return name;
+	}
+
+
+
+	public int compareTo(T o) {
+		User<T> user = (User<T>)o;
+		return(this.name.compareTo(user.name));
 	}
 
 

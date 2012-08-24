@@ -56,7 +56,7 @@ public class Application extends Controller {
 		}
 		//募集パートを分解
 		String[] wantedPartsArray = wantedParts.split(" +");
-		event.setWantedPartsByArray(wantedPartsArray);
+		event.addWantedParts(wantedPartsArray);
 
 		// 参加者に主催者を登録
 		event.participants.add(Util.getLoginUser());
