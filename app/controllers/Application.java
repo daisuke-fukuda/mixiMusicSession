@@ -124,7 +124,7 @@ public class Application extends Controller {
 		song.title = title;
 		song.singer = singer;
 		song.remarks = remarks;
-		song.setRecruitmentParts(wantedParts);
+		song.replaceRecruitmentParts(wantedParts);
 		song.setParticipateParts(participateParts);
 		song.save();
 		flash.success("作成しました。");
@@ -147,7 +147,7 @@ public class Application extends Controller {
 				("★【新規】**************************************"
 				, "曲名：" + song.title
 				, "状況：" + song.state.getName()
-				,"希望パート：" + song.findPartsName(participateParts)
+				,"希望パート：" + song.findPartsNames(participateParts)
 				,"募集パート：" + song.findIsInRecruitmentPartsName()
 				,"備考：" + song.remarks
 				,"************************************************"
@@ -196,7 +196,7 @@ public class Application extends Controller {
 		song.title = title;
 		song.singer = singer;
 		song.remarks = remarks;
-		song.setRecruitmentParts(wantedParts);
+		song.replaceRecruitmentParts(wantedParts);
 		song.setParticipants(participants);
 
 		// 保存
@@ -282,7 +282,7 @@ public class Application extends Controller {
 				("★【便乗】**************************************"
 				, "曲名：" + song.title
 				, "状況：" + song.state.getName()
-				,"希望パート：" + song.findPartsName(participateParts)
+				,"希望パート：" + song.findPartsNames(participateParts)
 				,"募集パート：" + song.findIsInRecruitmentPartsName()
 				,"備考：" + song.remarks
 				,"************************************************"

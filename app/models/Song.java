@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import util.Const;
 import util.SongState;
 import util.Util;
 
@@ -52,6 +53,10 @@ public class Song extends Model {
 	public SongState state;
 
 
+	/**
+	 * @param eventPartId EventPartのID
+	 * @return eventPartIdにひもづくPart
+	 */
 	public Part findPartByEventPartId(Long eventPartId) {
 
 		for (Part part : parts) {
@@ -64,10 +69,10 @@ public class Song extends Model {
 
 
 	/**
-	 * 募集パートをセットする
+	 * 募集パートを置き換える
 	 * @param 募集するパートのEventPartのID
 	 */
-	public void setRecruitmentParts(List<Long> eventPartId){
+	public void replaceRecruitmentParts(List<Long> eventPartIds){
 
 		// 一旦リセット
 		for (Part part : parts){
@@ -75,26 +80,33 @@ public class Song extends Model {
 		}
 
 		//募集パートの編集
-		if (eventPartId != null) {
-			for (Long id : eventPartId){
-				findPartByEventPartId(id).is_in_recruitment = true;
+		if (eventPartIds != null) {
+			for (Long id : eventPartIds){
+				Part part = findPartByEventPartId(id) ;
+				if ( part != null ) {
+					part.is_in_recruitment = true;
+				}
 			}
 		}
 
 	}
+
 
 	/**
 	 * 参加するパートをセットする
 	 * @param 参加するパートのEventPartのID
 	 */
-	public void setParticipateParts(List<Long> eventPartId){
+	public void setParticipateParts(List<Long> eventPartIds){
 
 		// 参加パートの編集
-		if (eventPartId != null) {
+		if (eventPartIds != null) {
 			User user = Util.getLoginUser();
 
-			for (Long id : eventPartId) {
-				findPartByEventPartId(id).setParticipant(user);
+			for (Long id : eventPartIds) {
+				Part part = findPartByEventPartId(id);
+				if ( part != null) {
+					part.setParticipant(user);
+				}
 			}
 		}
 	}
@@ -102,20 +114,23 @@ public class Song extends Model {
 
 
 	/**
-	 * eventPartIdを指定して、パート名を取得する。
+	 * eventPartIdを複数指定して、パート名を取得する。
 	 * 複数の場合はカンマ区切り。
 	 *
-	 * @param eventPartId
+	 * @param eventPartIds
 	 * @return 引数にひもづくパート名
 	 */
-	public String findPartsName(List<Long> eventPartId){
+	public String findPartsNames(List<Long> eventPartIds){
 
 
-		if (eventPartId != null) {
+		if (eventPartIds != null) {
 			List<String> partNames = new ArrayList();
 
-			for (Long id : eventPartId) {
-				partNames.add(findPartByEventPartId(id).eventPart.partName);
+			for (Long id : eventPartIds) {
+				Part part = findPartByEventPartId(id);
+				if (part != null) {
+					partNames.add(part.eventPart.partName);
+				}
 			}
 			return Util.list2StringWithoutBrackets(partNames);
 		}
@@ -145,22 +160,23 @@ public class Song extends Model {
 	 */
 	public void setParticipants(List<String> participantIds) {
 
-		for (int i = 0; i < parts.size(); i++){
-			String id = participantIds.get(i);
-
-			//TODO マジックワードを定数化する
-			if( id.equals("dummyUser")){
-				parts.get(i).participant = null;
-			} else {
-				//参加者変更
-				User user = User.findById(id);
-				parts.get(i).participant = user;
+		if (participantIds != null) {
+			if ( participantIds.size() != parts.size()) {
+				throw new IllegalArgumentException();
 			}
 
+			for (int i = 0; i < parts.size(); i++) {
+				String id = participantIds.get(i);
 
+				if (id.equals(Const.USER_ID_DUMMY)) {
+					parts.get(i).participant = null;
+				} else {
+					// 参加者変更
+					User user = User.findById(id);
+					parts.get(i).participant = user;
+				}
+			}
 		}
-
-
 	}
 
 
@@ -169,10 +185,5 @@ public class Song extends Model {
 
 		return title;
 	}
-
-
-
-
-
 
 }
