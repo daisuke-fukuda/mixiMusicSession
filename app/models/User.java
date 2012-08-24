@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import play.db.jpa.GenericModel;
 
 @Entity(name="user_info")
-public class User<T> extends GenericModel implements Comparable<T> {
+public class User extends GenericModel implements Comparable {
 
 	@Id
 	public String id;
@@ -23,8 +23,8 @@ public class User<T> extends GenericModel implements Comparable<T> {
 
 
 
-	public int compareTo(T o) {
-		User<T> user = (User<T>)o;
+	public int compareTo(Object o) {
+		User user = (User)o;
 		return(this.name.compareTo(user.name));
 	}
 

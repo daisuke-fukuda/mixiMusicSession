@@ -29,7 +29,6 @@ public class EventTest extends UnitTest {
 	}
 
 
-
 	@Test
 	public void イベントの通常登録() throws ParseException{
 
