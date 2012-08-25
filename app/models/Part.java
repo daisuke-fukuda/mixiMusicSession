@@ -6,15 +6,12 @@ import javax.persistence.ManyToOne;
 
 import play.data.validation.MaxSize;
 import play.db.jpa.Model;
+import util.Const;
 
 @Entity
 public class Part extends Model {
 
 
-
-
-	private final String NOW_RECRUITMENT = "募集中";
-	private final String NOT_RECRUITMENT = "-";
 
 
 	//募集するパートかどうか
@@ -31,18 +28,13 @@ public class Part extends Model {
 	/**
 	 * @return 応募者がいるか
 	 */
-	public boolean isParticipating(){
+	public boolean isParticipating() {
 
-		if (is_in_recruitment) {
-			if (participant == null) {
-				return false;
-			} else {
-				return true;
-			}
+		if (is_in_recruitment && participant != null) {
+			return true;
 		} else {
 			return false;
 		}
-
 	}
 
 
@@ -51,37 +43,33 @@ public class Part extends Model {
 	 */
 	public boolean isWanting(){
 
-		if (is_in_recruitment) {
-			if (participant == null) {
-				return true;
-			} else {
-				return false;
-			}
+		if (is_in_recruitment && participant == null) {
+			return true;
 		} else {
 			return false;
 		}
 
 	}
 
+	/**
+	 * @return 応募者の名前。募集中なら「募集中」、募集してなければ「-」
+	 */
 	public String getParticipantName() {
 		if (is_in_recruitment) {
 			if (participant == null) {
-				return NOW_RECRUITMENT;
+				return Const.NOW_RECRUITMENT;
 			} else {
 				return participant.name;
 			}
 		} else {
-			return NOT_RECRUITMENT;
+			return Const.NOT_RECRUITMENT;
 		}
 	}
 
-	public void setParticipant(User participant) {
-		this.participant = participant;
-	}
 
 	@Override
 	public String toString(){
-		return participant==null ? "" : participant.name;
+		return participant == null ? "" : participant.name;
 	}
 
 }

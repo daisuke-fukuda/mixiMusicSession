@@ -105,7 +105,7 @@ public class Song extends Model {
 			for (Long id : eventPartIds) {
 				Part part = findPartByEventPartId(id);
 				if ( part != null) {
-					part.setParticipant(user);
+					part.participant = user;
 				}
 			}
 		}
